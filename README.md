@@ -1,2 +1,3 @@
 # khan-vr-api
-Study Khan Academy in Virtual Reality
+
+Endpoint to study Khan Academy in Virtual Reality
