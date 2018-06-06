@@ -1,19 +1,23 @@
 
 const OAuth = require('oauth').OAuth
 
-const oauth = new OAuth(
-  'https://www.khanacademy.org/api/auth2/request_token',
-  'https://www.khanacademy.org/api/auth2/access_token',
-  process.env.CONSUMER_KEY,
-  process.env.CONSUMER_SECRET,
-  '1.0',
-  'https://khan-vr-api.herokuapp.com/done',
-  'HMAC-SHA1',
-  64
-)
+module.exports = () => {
+  const oauth = new OAuth(
+    'https://www.khanacademy.org/api/auth2/request_token',
+    'https://www.khanacademy.org/api/auth2/access_token',
+    process.env.CONSUMER_KEY,
+    process.env.CONSUMER_SECRET,
+    '1.0',
+    'https://khan-vr-api.herokuapp.com/done',
+    'HMAC-SHA1',
+    64
+  )
+
+  oauth.getOAuthRequestToken(requestTokenCallback)
+}
 
 const finalCallback = (err, data, res) => {
-  
+
   if (err) {
     console.log('finalCallback', err)
     return
@@ -55,5 +59,3 @@ const requestTokenCallback = (err, token, tokenSecret, res) => {
   console.log('requesting access token')
   oauth.getOAuthAccessToken(token, tokenSecret, accessTokenCallback)
 }
-
-oauth.getOAuthRequestToken(requestTokenCallback)
