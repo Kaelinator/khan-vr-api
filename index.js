@@ -37,7 +37,7 @@ app.get('/oauth', (req, res) => {
     req.session.oauth = req.session.oauth || {}
     req.session.oauth.token = token
     req.session.oauth.token_secret = token_secret
-    res.redirect('https://www.khanacademy.org/api/auth2/authorize?oauth_token=' + token)
+    res.redirect(`https://www.khanacademy.org/api/auth2/authorize?oauth_token=${token}`)
   })
 })
 
@@ -58,7 +58,7 @@ app.get('/oauth/callback', (req, res, next) => {
         console.log(results)
       })
   } else {
-    next(new Error('How did you get here?'))
+    res.send('How\'d you get here?')
   }
 })
 
