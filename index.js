@@ -60,6 +60,7 @@ app.get('/oauth/callback', (req, res, next) => {
         khan(oauth_access_token, oauth_access_token_secret)
           .userExercise()
           .then(res => res.send(res))
+          .catch(err => res.json({ err, oauth_access_token, oauth_access_token_secret }))
         // .accessToken(req.session.oauth.token, req.query.oauth_verifier)
 
       })
