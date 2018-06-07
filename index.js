@@ -3,6 +3,7 @@ const app = express()
 const dotenv = require('dotenv')
 const OAuth = require('oauth').OAuth
 const session = require('express-session')
+const khan = require('khan')(process.env.CONSUMER_KEY, process.env.CONSUMER_SECRET)
 
 dotenv.config()
 
@@ -50,12 +51,17 @@ app.get('/oauth/callback', (req, res, next) => {
       req.query.oauth_verifier,
       function (error, oauth_access_token, oauth_access_token_secret, results) {
 
-        if (err) {
-          console.log('getOAuthAccessToken', err)
+        if (error) {
+          console.log('getOAuthAccessToken', error)
           return
         }
         console.log(results)
-        res.send(results)
+
+        khan(oauth_access_token, oauth_access_token_secret)
+          .userExercies()
+          .then(res => res.send(res))
+        // .accessToken(req.session.oauth.token, req.query.oauth_verifier)
+
       })
   } else {
     res.send('How\'d you get here?')
