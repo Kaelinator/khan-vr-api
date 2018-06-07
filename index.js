@@ -17,8 +17,8 @@ app.get('/oauth/callback', (req, res, next) => {
 
   khan.accessToken(req.query['oauth_token'], req.query['oauth_verifier'], req.query['oauth_token_secret'])
     .then(({ oauth_token, oauth_token_secret }) => khan(oauth_token_secret, oauth_token).user())
-    .then(u => res.json({ u }))
-    .catch(err => res.json({ err }))
+    .then(u => res.json(u))
+    .catch(err => res.json(err))
 })
 
 app.listen(process.env.PORT || 3000)
