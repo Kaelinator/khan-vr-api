@@ -40,6 +40,7 @@ app.get('/oauth', (req, res) => {
 })
 
 app.get('/oauth/callback', (req, res, next) => {
+  console.log('session:', req.session.oauth)
   if (req.session.oauth) {
     // req.session.oauth.verifier = req.query.oauth_verifier
     // const oauth = req.session.oauth
