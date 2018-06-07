@@ -19,7 +19,7 @@ const oa = new OAuth(
   process.env.CONSUMER_KEY,
   process.env.CONSUMER_SECRET,
   '1.0',
-  'https://khan-vr-api.herokuapp.com/oauth/callback',
+  'http://localhost:3000/oauth/callback',
   'HMAC-SHA1',
   64
 )
@@ -32,8 +32,6 @@ app.get('/oauth', (req, res) => {
       return
     }
 
-    console.log('token:', token)
-    console.log('tokenSecret:', token_secret)
     req.session.oauth = req.session.oauth || {}
     req.session.oauth.token = token
     req.session.oauth.token_secret = token_secret
@@ -43,12 +41,12 @@ app.get('/oauth', (req, res) => {
 
 app.get('/oauth/callback', (req, res, next) => {
   if (req.session.oauth) {
-    req.session.oauth.verifier = req.query.oauth_verifier
-    const oauth = req.session.oauth
+    // req.session.oauth.verifier = req.query.oauth_verifier
+    // const oauth = req.session.oauth
 
-    oa.getOAuthAccessToken(oauth.token,
-      oauth.token_secret,
-      oauth.verifier,
+    oa.getOAuthAccessToken(req.session.oauth.token,
+      req.session.oauth.token_secret,
+      req.query.oauth_verifier,
       function (error, oauth_access_token, oauth_access_token_secret, results) {
 
         if (err) {
@@ -56,6 +54,7 @@ app.get('/oauth/callback', (req, res, next) => {
           return
         }
         console.log(results)
+        res.send(results)
       })
   } else {
     res.send('How\'d you get here?')
