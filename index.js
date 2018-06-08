@@ -35,6 +35,6 @@ app.get('/oauth/callback', (req, res) => {
     })
 })
 
-setInterval(code.refresh, 5000)
+// setInterval(code.refresh, 5000)
 
 app.listen(process.env.PORT || 3000)
