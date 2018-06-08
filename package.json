@@ -20,6 +20,7 @@
   "dependencies": {
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
-    "khan": "git+https://github.com/Kaelinator/khan.git"
+    "khan": "git+https://github.com/Kaelinator/khan.git",
+    "serve-favicon": "^2.5.0"
   }
 }

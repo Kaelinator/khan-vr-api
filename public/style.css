@@ -1,3 +1,80 @@
-p {
-  background: purple;
+
+body, html {
+  height: 100%;
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+div.wrapper {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 5fr 1fr;
+}
+
+div.wrapper > div {
+  display: block;
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+
+div.contents {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  color: #444;
+}
+
+div#header {
+  text-align: center;
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+form {
+  grid-column: 1 / 4;
+  grid-row: 2 / 3;
+}
+
+div#form {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: repeat(1fr, 3);
+}
+
+div#input-code-wrap > input {
+  width: 100%;
+}
+
+div.fine-print {
+  color: #999;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  grid-column: 1 / 4;
+}
+
+div.fine-print > small > a {
+  color: inherit;
+}
+
+div#submit-wrap {
+  grid-column: 1 / 4;
+}
+
+input#go {
+  font-size: 1.25em;
+  padding: 10px;
+  width: 100%;
+  border: 2px solid #FFF;
+  border-radius: 25px;
+  color: #FFF;
+  background: linear-gradient(rgba(112, 178, 6, 1.00), rgba(101, 161, 6, 1.00));
+}
+
+input#go:focus {
+  box-shadow: 0 0 0 1px rgba(107, 170, 6, 1.00);
 }

@@ -1,4 +1,4 @@
 
 window.onload = () => {
-  alert('just testing')
+  // alert('just testing')
 }

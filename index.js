@@ -1,14 +1,16 @@
 const express = require('express')
 const app = express()
+const favicon = require('serve-favicon')
+const path = require('path')
 require('dotenv').config()
 const khan = require('khan')(process.env.CONSUMER_KEY, process.env.CONSUMER_SECRET)
-const path = require('path')
 
 app.use(express.static('public'))
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 app.get('/', (req, res) => {
 
-  res.sendFile(path.join('public', 'main.html'), {root: __dirname })
+  res.sendFile(path.join(__dirname, 'public', 'code.html'))
 })
 
 app.get('/oauth', (req, res) => {
