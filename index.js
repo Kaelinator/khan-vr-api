@@ -38,18 +38,20 @@ app.get('/api', (req, res) => {
 
   const tokens = code.get(req.query['code'])
 
-  if (tokens)
-    khan(tokens['oauth_token_secret'], tokens['oauth_token'])
-      .userExercises()
-      .then(json => res.json({ err: false, json }))
-      .catch(err => {
-
-        console.log(err)
-        res.json({ err: true })
-      })
-  else
+  if (!tokens)
     res.json({ err: true })
+
+  khan(tokens['oauth_token_secret'], tokens['oauth_token'])
+    .user()
+    .then(() => res.json({ err: false }))
+    .catch(err => {
+
+      console.log(err)
+      res.json({ err: true })
+    })
 })
+
+app.get('/api/:func', require('./api/endpoint')(khan))
 
 setInterval(code.refresh, 5000)
 
