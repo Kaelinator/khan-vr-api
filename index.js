@@ -2,9 +2,9 @@ const express = require('express')
 const app = express()
 const favicon = require('serve-favicon')
 const path = require('path')
-const code = require('./api/code')
 require('dotenv').config()
 const khan = require('khan')(process.env.CONSUMER_KEY, process.env.CONSUMER_SECRET)
+const code = require('./api/code')
 
 app.use(express.static('public'))
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
@@ -26,15 +26,26 @@ app.get('/oauth', (req, res) => {
 app.get('/oauth/callback', (req, res) => {
 
   khan.accessToken(req.query['oauth_token'], req.query['oauth_verifier'], req.query['oauth_token_secret'])
-    .then(({ oauth_token, oauth_token_secret }) => khan(oauth_token_secret, oauth_token).user())
-    .then(() => res.sendFile(path.join(__dirname, 'public', 'success.html')))
-    .catch(err => {
-
-      console.log(err)
-      res.sendFile(path.join(__dirname, 'public', 'fail.html'))
-    })
+    .then(tokens => code.add(req.query['code'], tokens) || tokens) // yikes
+    .then(code.isTokenAlive)
+    .then(alive =>
+      res.sendFile(path.join(__dirname, 'public', alive && 'success.html' || 'fail.html'))
+    )
+    .catch(() => res.sendFile(path.join(__dirname, 'public', 'fail.html')))
 })
 
-// setInterval(code.refresh, 5000)
+app.get('/api', (req, res) => {
+
+  const tokens = code.get(req.query['code'])
+
+  if (tokens)
+    khan(tokens['oauth_token_secret'], tokens['oauth_token'])
+      .userExercises()
+      .then(json => res.json({ json }))
+  else
+    res.json({ err: 'code does not exist' })
+})
+
+setInterval(code.refresh, 5000)
 
 app.listen(process.env.PORT || 3000)
