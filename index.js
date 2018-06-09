@@ -42,8 +42,13 @@ app.get('/api', (req, res) => {
     khan(tokens['oauth_token_secret'], tokens['oauth_token'])
       .userExercises()
       .then(json => res.json({ json }))
+      .catch(err => {
+
+        console.log(err)
+        res.json({ err: true })
+      })
   else
-    res.json({ err: 'code does not exist' })
+    res.json({ err: true })
 })
 
 setInterval(code.refresh, 5000)
