@@ -41,7 +41,7 @@ app.get('/api', (req, res) => {
   if (tokens)
     khan(tokens['oauth_token_secret'], tokens['oauth_token'])
       .userExercises()
-      .then(json => res.json({ json }))
+      .then(json => res.json({ err: false, json }))
       .catch(err => {
 
         console.log(err)
