@@ -39,15 +39,15 @@ app.get('/api', (req, res) => {
   const tokens = code.get(req.query['code'])
 
   if (!tokens)
-    res.json({ err: true })
+    res.json({ success: false })
 
   khan(tokens['oauth_token_secret'], tokens['oauth_token'])
     .user()
-    .then(() => res.json({ err: false }))
+    .then(() => res.json({ success: true }))
     .catch(err => {
 
       console.log(err)
-      res.json({ err: true })
+      res.json({ success: false })
     })
 })
 

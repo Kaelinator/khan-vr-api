@@ -22,16 +22,16 @@ module.exports = khan => (req, res) => {
   const tokens = code.get(req.query['code'])
 
   if (!tokens)
-    res.json({ err: true })
+    res.json({ success: false })
 
 
   const fetcher = khan(tokens['oauth_token_secret'], tokens['oauth_token'])
 
   get(fetcher, req.params['func'])
-    .then(data => res.json({ err: false, data }))
+    .then(data => res.json({ success: true, data }))
     .catch(err => {
 
       console.log(err)
-      res.json({ err: true })
+      res.json({ success: false })
     })
 }
